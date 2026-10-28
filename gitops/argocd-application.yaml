@@ -1,0 +1,27 @@
+# Argo CD Application: production deploys the Helm chart from this repo.
+# Apply after installing Argo CD and pointing it at this repository:
+#   kubectl apply -f gitops/argocd-application.yaml
+# Replace the repoURL below with this repository's URL if you fork it.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: notes-api-prod
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/giriboinar/k8s-gitops-notes-api.git
+    targetRevision: main
+    path: helm/notes-api
+    helm:
+      values: |
+        replicaCount: 2
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: notes-api
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

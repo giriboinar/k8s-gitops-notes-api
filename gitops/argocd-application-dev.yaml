@@ -1,0 +1,21 @@
+# Argo CD Application: dev deploys the Kustomize dev overlay from this repo.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: notes-api-dev
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/giriboinar/k8s-gitops-notes-api.git
+    targetRevision: main
+    path: k8s/overlays/dev
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: notes-api-dev
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
