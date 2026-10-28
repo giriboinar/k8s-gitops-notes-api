@@ -1,0 +1,30 @@
+# Default values for the notes-api chart.
+replicaCount: 2
+image:
+  # Replace with your built image tag before installing.
+  repository: notes-api
+  tag: latest
+  pullPolicy: IfNotPresent
+service:
+  port: 80
+  targetPort: 8000
+ingress:
+  enabled: true
+  className: nginx
+  # Change to your own domain before installing.
+  host: notes.example.com
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 70
+config:
+  APP_ENV: prod
+  LOG_LEVEL: info
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
