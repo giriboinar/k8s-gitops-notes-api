@@ -1,0 +1,8 @@
+Notes API is installed.
+
+Check the pods:
+  kubectl get pods -l app=notes-api
+
+Port-forward and test locally:
+  kubectl port-forward svc/{{ .Release.Name }}-notes-api 8000:80
+  curl http://localhost:8000/health
