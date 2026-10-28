@@ -1,0 +1,17 @@
+# ServiceMonitor for the Prometheus Operator. Requires the operator in the
+# cluster; the app's own /metrics endpoint works without it.
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: notes-api
+  namespace: notes-api
+  labels:
+    app: notes-api
+spec:
+  selector:
+    matchLabels:
+      app: notes-api
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: 30s
